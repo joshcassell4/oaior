@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <title>{% block title %}Landing OAI OR{% endblock %}</title>
+    
+    <!-- Meta tags -->
+    <meta name="description" content="{% block description %}Welcome to Landing OAI OR{% endblock %}">
+    <meta name="keywords" content="{% block keywords %}landing, oai, or{% endblock %}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static_bp.favicon') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static_bp.apple_touch_icon') }}">
+    <link rel="manifest" href="{{ url_for('static_bp.webmanifest') }}">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static_bp.static_files', filename='css/style.css') }}">
+    
+    <!-- Custom CSS block for child templates -->
+    {% block styles %}{% endblock %}
+    
+    <!-- Head scripts -->
+    {% block head_scripts %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <!-- Navigation (if needed in future) -->
+    {% block navigation %}
+    <nav class="navbar" style="display: none;">
+        <!-- Navigation will be added here when needed -->
+    </nav>
+    {% endblock %}
+    
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                        <button type="button" class="close" onclick="this.parentElement.style.display='none';">&times;</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <!-- Main content -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer (if needed in future) -->
+    {% block footer %}
+    <footer class="footer" style="display: none;">
+        <!-- Footer content will be added here when needed -->
+    </footer>
+    {% endblock %}
+    
+    <!-- JavaScript -->
+    <script src="{{ url_for('static_bp.static_files', filename='js/main.js') }}"></script>
+    
+    <!-- Custom scripts block for child templates -->
+    {% block scripts %}{% endblock %}
+    
+    <!-- Analytics or tracking scripts -->
+    {% block analytics %}{% endblock %}
+</body>
+</html>

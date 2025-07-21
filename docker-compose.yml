@@ -1,15 +1,40 @@
 services:
+  mongodb:
+    image: mongo:latest
+    container_name: openai_outreach_mongodb
+    restart: unless-stopped
+    volumes:
+      - ./data/mongodb:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      # For development, no authentication. For production, add:
+      # - MONGO_INITDB_ROOT_USERNAME=admin
+      # - MONGO_INITDB_ROOT_PASSWORD=changeme
+      - MONGO_INITDB_DATABASE=openai_outreach
+    networks:
+      - app-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
   web:
     build: .
     container_name: openai_outreach_app
     restart: unless-stopped
     environment:
-      - FLASK_ENV=production
+      - FLASK_ENV=development
       - PORT=8000
+      - MONGODB_URI=mongodb://mongodb:27017/openai_outreach
     volumes:
       - ./app:/app
     networks:
       - app-network
+    depends_on:
+      - mongodb
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s

@@ -1,3 +1,15 @@
 Flask==3.0.0
 gunicorn==21.2.0
 python-dotenv==1.0.0
+pymongo==4.6.0
+
+# Future expansion dependencies (optional for now, but useful)
+# Uncomment as needed:
+# Flask-SQLAlchemy==3.1.1  # Database ORM
+# Flask-Migrate==4.0.5      # Database migrations
+# Flask-Login==0.6.3        # User authentication
+# Flask-WTF==1.2.1          # Form handling and CSRF protection
+# Flask-CORS==4.0.0         # Cross-Origin Resource Sharing
+# Flask-RESTful==0.3.10     # REST API framework
+# Flask-Mail==0.9.1         # Email support
+# Flask-Caching==2.1.0      # Caching support

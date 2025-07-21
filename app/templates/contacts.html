@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Contacts - Landing OAI OR{% endblock %}
+{% block description %}Manage your contacts{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static_bp.static_files', filename='css/contacts.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="contacts-header">
+        <h1>Contacts</h1>
+        <button id="addContactBtn" class="btn btn-primary">Add Contact</button>
+    </div>
+
+    <div class="contacts-table-container">
+        <table id="contactsTable" class="contacts-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Company</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="contactsTableBody">
+                <!-- Contacts will be loaded here via JavaScript -->
+            </tbody>
+        </table>
+        <div id="noContactsMessage" class="no-contacts" style="display: none;">
+            <p>No contacts found. Click "Add Contact" to create your first contact.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Add Contact Modal -->
+<div id="addContactModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Add New Contact</h2>
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="addContactForm">
+                <div class="form-group">
+                    <label for="firstName">First Name *</label>
+                    <input type="text" id="firstName" name="first_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name *</label>
+                    <input type="text" id="lastName" name="last_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="company">Company</label>
+                    <input type="text" id="company" name="company">
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" name="notes" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Contact</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Success/Error Messages -->
+<div id="messageContainer" class="message-container"></div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static_bp.static_files', filename='js/contacts.js') }}"></script>
+{% endblock %}

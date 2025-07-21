@@ -1,4 +1,32 @@
 services:
+  mongodb:
+    image: mongo:latest
+    container_name: openai_outreach_mongodb
+    restart: always
+    volumes:
+      - ./data/mongodb:/data/db
+    environment:
+      # For production, use strong credentials from .env file:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME:-admin}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=openai_outreach
+    networks:
+      - app-network
+    # Don't expose port in production for security
+    # ports:
+    #   - "27017:27017"
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   web:
     build: .
     container_name: openai_outreach_app
@@ -6,8 +34,11 @@ services:
     environment:
       - FLASK_ENV=production
       - PORT=8000
+      - MONGODB_URI=mongodb://${MONGO_ROOT_USERNAME:-admin}:${MONGO_ROOT_PASSWORD}@mongodb:27017/openai_outreach?authSource=admin
     networks:
       - app-network
+    depends_on:
+      - mongodb
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s

@@ -39,3 +39,8 @@ logs/
 
 # Docker
 .dockerignore
+
+# Database data (NEVER commit database files)
+data/
+*.db
+nul

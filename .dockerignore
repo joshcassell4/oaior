@@ -26,3 +26,25 @@ coverage.xml
 *.swo
 *~
 .DS_Store
+
+# Database data (NEVER include in Docker image)
+data/
+*.db
+
+# Git files
+.git/
+.gitignore
+
+# Docker files
+Dockerfile
+docker-compose*.yml
+
+# Scripts and docs
+scripts/
+*.md
+
+# Other project files
+nginx/
+favicon_io/
+*.bat
+run.py

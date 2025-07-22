@@ -1,0 +1,150 @@
+/* Squeaky Toy Challenge Game Styles */
+
+.game-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.game-container h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.game-instructions {
+    color: #555;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+}
+
+.game-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    background: #f8f9fa;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.stat-label {
+    font-weight: bold;
+    color: #555;
+    margin-right: 10px;
+}
+
+.stat-value {
+    font-size: 1.2em;
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+#gameCanvas {
+    border: 3px solid #34495e;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    cursor: grab;
+    background: white;
+    max-width: 100%;
+    height: auto;
+}
+
+#gameCanvas:active {
+    cursor: grabbing;
+}
+
+.game-controls {
+    margin-top: 20px;
+}
+
+.game-button {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin: 0 10px;
+}
+
+.game-button:hover {
+    background: #2980b9;
+}
+
+.game-button:active {
+    transform: translateY(2px);
+}
+
+#resetButton {
+    background: #e74c3c;
+}
+
+#resetButton:hover {
+    background: #c0392b;
+}
+
+.game-message {
+    margin-top: 20px;
+    font-size: 1.3em;
+    font-weight: bold;
+    min-height: 30px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .game-container h1 {
+        font-size: 2em;
+    }
+    
+    .game-instructions {
+        font-size: 1em;
+    }
+    
+    .game-stats {
+        gap: 15px;
+    }
+    
+    .stat-item {
+        padding: 8px 15px;
+    }
+    
+    .game-button {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+    
+    #gameCanvas {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-container {
+        padding: 10px;
+    }
+    
+    .game-container h1 {
+        font-size: 1.5em;
+    }
+    
+    .stat-item {
+        padding: 5px 10px;
+        font-size: 0.9em;
+    }
+    
+    .game-button {
+        margin: 5px;
+    }
+}

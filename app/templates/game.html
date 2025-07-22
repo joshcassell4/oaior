@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Squeaky Toy Challenge - {{ super() }}{% endblock %}
+{% block description %}Give the squeaky toy to the pit bull before time runs out!{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static_bp.static_files', filename='css/game.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="game-container">
+    <h1>Squeaky Toy Challenge</h1>
+    <p class="game-instructions">Click the squeaky toy and drag it to the dog before time runs out!</p>
+    
+    <div class="game-stats">
+        <div class="stat-item">
+            <span class="stat-label">Score:</span>
+            <span id="score" class="stat-value">0</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Time:</span>
+            <span id="timer" class="stat-value">5.0</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Level:</span>
+            <span id="level" class="stat-value">1</span>
+        </div>
+    </div>
+    
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    
+    <div class="game-controls">
+        <button id="startButton" class="game-button">Start Game</button>
+        <button id="resetButton" class="game-button" style="display: none;">Play Again</button>
+    </div>
+    
+    <div id="gameMessage" class="game-message"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static_bp.static_files', filename='js/squeaky-toy-game.js') }}"></script>
+{% endblock %}

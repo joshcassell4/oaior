@@ -23,6 +23,7 @@
                 <li><a href="#services">Services</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="/contacts">Contacts Manager</a></li>
+                <li><a href="/affirmations">✨ Affirmations</a></li>
                 <li><a href="/game">🎮 Play Game</a></li>
             </ul>
         </div>
@@ -41,6 +42,30 @@
             </div>
         </div>
     </section>
+
+    <!-- Daily Affirmation Section -->
+    {% if affirmation %}
+    <section class="daily-affirmation" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 60px 0; color: white;">
+        <div class="container">
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <h2 style="color: white; margin-bottom: 30px; font-size: 2rem;">✨ Daily Affirmation</h2>
+                <blockquote style="font-size: 1.4rem; line-height: 1.6; font-style: italic; margin: 0; border: none; padding: 0;">
+                    "{{ affirmation.text }}"
+                </blockquote>
+                {% if affirmation.author %}
+                <p style="margin-top: 20px; font-size: 1rem; opacity: 0.9;">
+                    — {{ affirmation.author }}
+                </p>
+                {% endif %}
+                {% if affirmation.category %}
+                <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">
+                    [{{ affirmation.category }}]
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
 
     <!-- About Section -->
     <section id="about" class="about">

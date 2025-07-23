@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Affirmations Manager - Open AI Outreach{% endblock %}
+{% block description %}Manage positive affirmations for display on the website{% endblock %}
+{% block keywords %}affirmations, positive quotes, management{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/affirmations.css') }}">
+{% endblock %}
+
+{% block navigation %}
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">Open AI Outreach 🚀</div>
+            <ul class="nav-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/contacts">Contacts Manager</a></li>
+                <li><a href="/affirmations" class="active">Affirmations</a></li>
+                <li><a href="/game">🎮 Play Game</a></li>
+            </ul>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="header-section">
+            <h1>Affirmations Manager</h1>
+            <p>Manage positive affirmations that appear on the landing page</p>
+        </div>
+
+        <!-- Add Affirmation Form -->
+        <div class="add-affirmation-section">
+            <h2>Add New Affirmation</h2>
+            <form id="addAffirmationForm">
+                <div class="form-group">
+                    <label for="affirmationText">Affirmation Text *</label>
+                    <textarea id="affirmationText" name="text" rows="3" required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="affirmationAuthor">Author</label>
+                        <input type="text" id="affirmationAuthor" name="author" placeholder="Optional">
+                    </div>
+                    <div class="form-group">
+                        <label for="affirmationCategory">Category</label>
+                        <input type="text" id="affirmationCategory" name="category" placeholder="Optional">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Affirmation</button>
+            </form>
+        </div>
+
+        <!-- Affirmations List -->
+        <div class="affirmations-list-section">
+            <h2>Current Affirmations</h2>
+            <div id="affirmationsCount" class="count-info"></div>
+            <div id="affirmationsList" class="affirmations-list">
+                <!-- Affirmations will be loaded here dynamically -->
+            </div>
+        </div>
+
+        <!-- Edit Modal -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Edit Affirmation</h2>
+                <form id="editAffirmationForm">
+                    <input type="hidden" id="editAffirmationId">
+                    <div class="form-group">
+                        <label for="editAffirmationText">Affirmation Text *</label>
+                        <textarea id="editAffirmationText" name="text" rows="3" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editAffirmationAuthor">Author</label>
+                            <input type="text" id="editAffirmationAuthor" name="author">
+                        </div>
+                        <div class="form-group">
+                            <label for="editAffirmationCategory">Category</label>
+                            <input type="text" id="editAffirmationCategory" name="category">
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/affirmations.js') }}"></script>
+{% endblock %}

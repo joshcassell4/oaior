@@ -38,12 +38,14 @@ def create_app(config_name=None):
     from blueprints.errors import errors
     from blueprints.contacts import contacts
     from blueprints.game import game
+    from blueprints.affirmations import affirmations
     
     app.register_blueprint(main)
     app.register_blueprint(static_bp)
     app.register_blueprint(errors)
     app.register_blueprint(contacts)
     app.register_blueprint(game)
+    app.register_blueprint(affirmations)
     
     # Only register API blueprint if enabled
     if app.config.get('ENABLE_API', True):

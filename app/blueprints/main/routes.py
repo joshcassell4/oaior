@@ -1,12 +1,23 @@
 from flask import render_template, jsonify
 from . import main
-from database import test_connection
+from database import test_connection, find_documents
+import random
 
 
 @main.route('/')
 def index():
     """Main landing page."""
-    return render_template('index.html')
+    # Get a random affirmation
+    random_affirmation = None
+    try:
+        affirmations = find_documents('affirmations')
+        if affirmations:
+            random_affirmation = random.choice(affirmations)
+    except Exception as e:
+        # If there's an error fetching affirmations, just continue without one
+        pass
+    
+    return render_template('index.html', affirmation=random_affirmation)
 
 
 @main.route('/health')

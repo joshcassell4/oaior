@@ -9,21 +9,30 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Start all services (MongoDB, Flask app, Nginx)
 docker-compose up -d
 
+# Development with live reload
+make dev
+
 # Run Flask directly (requires local MongoDB)
 python run.py
 
 # View logs
 docker-compose logs -f web
+make logs
 
 # Rebuild after code changes
 docker-compose build web
 docker-compose up -d
+
+# Full restart
+make restart
 
 # Access services
 # Main site (via Nginx): http://localhost
 # Direct Flask app: http://localhost:8000
 # MongoDB: mongodb://localhost:27017/openai_outreach
 # Contacts page: http://localhost/contacts
+# Affirmations manager: http://localhost/affirmations
+# Game: http://localhost/game
 ```
 
 ### Production Deployment
@@ -59,11 +68,26 @@ In the Docker container, the app directory contents are copied to `/app`, so imp
 
 ### Blueprint Architecture
 Current blueprints:
-- **main**: Core landing page, health checks (`/`)
+- **main**: Core landing page, health checks, random affirmation display (`/`)
 - **api**: RESTful API endpoints (`/api/v1/`)
 - **static**: Static file serving with caching
 - **errors**: Centralized error handling (404, 500, etc.)
 - **contacts**: Contact management system (`/contacts/`)
+- **game**: Squeaky toy game (`/game`)
+- **affirmations**: Affirmations CRUD management (`/affirmations/`)
+
+### Three-Environment Configuration System
+Environment-based configs in `app/config.py`:
+- `DevelopmentConfig`: Debug enabled, logs to stdout
+- `ProductionConfig`: Debug disabled, rotating log files, secure cookies
+- `TestingConfig`: In-memory database, CSRF disabled
+
+Key environment variables:
+- `FLASK_ENV`: development/production
+- `MONGODB_URI`: MongoDB connection string
+- `SECRET_KEY`: Flask secret key (change in production!)
+- `PORT`: Flask port (default: 8000)
+- `ENABLE_API`: Enable/disable API blueprint
 
 ## MongoDB Integration
 
@@ -74,7 +98,10 @@ Database utilities in `app/database.py`:
 - `update_document(collection, query, update_data)`: Update a document
 - `delete_document(collection, query)`: Delete a document
 
-Test endpoint: `/mongodb-test`
+Collections:
+- `contacts`: Contact management data
+- `affirmations`: Affirmations with text, author, category, timestamps
+- `test_collection`: Used by `/mongodb-test` endpoint
 
 ## Adding New Features
 
@@ -100,19 +127,32 @@ Test endpoint: `/mongodb-test`
    app.register_blueprint(your_feature)
    ```
 
-### Configuration
-Environment-based configs in `app/config.py`:
-- `DevelopmentConfig`: Debug enabled, logs to stdout
-- `ProductionConfig`: Debug disabled, rotating log files, secure cookies
-- `TestingConfig`: In-memory database, CSRF disabled
+### Blueprint Patterns
+- **API Endpoints**: Follow REST conventions with proper HTTP status codes
+- **CRUD Operations**: Use database utilities with error handling
+- **Templates**: Extend `base.html` for consistent layout
+- **Static Assets**: Place CSS in `app/static/css/`, JS in `app/static/js/`
+- **JSON Serialization**: Convert ObjectId to string, handle datetime objects
 
-Key environment variables:
-- `FLASK_ENV`: development/production
-- `MONGODB_URI`: MongoDB connection string
-- `SECRET_KEY`: Flask secret key (change in production!)
-- `PORT`: Flask port (default: 8000)
-- `ENABLE_API`: Enable/disable API blueprint
-- `ENABLE_ADMIN`: Enable/disable admin features
+### Integration with Landing Page
+The main landing page (`templates/index.html`) can display data from other blueprints:
+- Random affirmations are fetched in `main/routes.py` and passed to template
+- Navigation links are centralized in the template
+- Conditional sections using `{% if variable %}` for optional content
+
+## Production Docker Architecture
+
+**Multi-Service Stack**:
+- **MongoDB**: Persistent storage with health checks, authentication via environment variables
+- **Flask/Gunicorn**: 4 workers + 2 threads per worker, non-root user, proper WSGI entry
+- **Nginx**: Reverse proxy with security headers, SSL termination, compression, static file caching
+
+**Security Features**:
+- No exposed database ports in production
+- SSL/TLS with Let's Encrypt integration
+- Security headers (CSP, XSS protection)
+- Nginx rate limiting and request size limits
+- Log rotation and centralized logging
 
 ## Common Issues and Solutions
 
@@ -121,12 +161,13 @@ If you see "ImportError: attempted relative import with no known parent package"
 - Check that all imports in `app/__init__.py` and blueprint files use absolute imports
 - The Docker container copies app contents to `/app`, changing the module structure
 
-### Port Conflicts
-- MongoDB runs on port 27017 (configurable in docker-compose.yml)
-- If port is already in use, either stop the conflicting service or change the port mapping
-
 ### Container Health Checks
 All services have health checks configured:
 - MongoDB: `db.runCommand("ping")`
-- Flask: `/health` endpoint
+- Flask: `/health` endpoint with MongoDB connectivity test
 - Nginx: `/health` proxy check
+
+### Database Connection Issues
+- Use `/mongodb-test` endpoint to verify database connectivity
+- Check logs with `make logs` or `docker-compose logs -f`
+- Ensure MongoDB container is running: `docker-compose ps`

@@ -1,14 +1,13 @@
 services:
   mongodb:
     image: mongo:latest
-    container_name: openai_outreach_mongodb
+    container_name: openai_outreach_mongodb_dev
     restart: unless-stopped
+    ports:
+      - "27017:27017"
     volumes:
-      - mongodb_data:/data/db
+      - mongodb_dev_data:/data/db
     environment:
-      # For development, no authentication. For production, add:
-      # - MONGO_INITDB_ROOT_USERNAME=admin
-      # - MONGO_INITDB_ROOT_PASSWORD=changeme
       - MONGO_INITDB_DATABASE=openai_outreach
     networks:
       - app-network
@@ -23,8 +22,10 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    container_name: openai_outreach_backend
+    container_name: openai_outreach_backend_dev
     restart: unless-stopped
+    ports:
+      - "8000:8000"
     environment:
       - FLASK_ENV=development
       - PORT=8000
@@ -47,49 +48,29 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-      target: production
-    container_name: openai_outreach_frontend
-    restart: unless-stopped
-    networks:
-      - app-network
-    depends_on:
-      backend:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:80"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
-
-  nginx:
-    image: nginx:alpine
-    container_name: openai_outreach_nginx
+      target: development
+    container_name: openai_outreach_frontend_dev
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./nginx/ssl:/etc/nginx/ssl:ro
-    depends_on:
-      frontend:
-        condition: service_started
-      backend:
-        condition: service_healthy
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/index.html:/app/index.html
+      - ./frontend/vite.config.js:/app/vite.config.js
     networks:
       - app-network
-    healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
+    depends_on:
+      backend:
+        condition: service_healthy
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
 
 networks:
   app-network:
     driver: bridge
 
 volumes:
-  mongodb_data:
+  mongodb_dev_data:
     driver: local

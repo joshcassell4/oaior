@@ -2,7 +2,26 @@
   "permissions": {
     "allow": [
       "Bash(mkdir:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "mcp__sequential-thinking__sequentialthinking",
+      "Bash(cp:*)",
+      "Bash(docker-compose build:*)",
+      "Bash(docker-compose:*)",
+      "Bash(curl:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/)",
+      "Bash(docker-compose exec frontend sh -c \"ls -la /usr/share/nginx/html/assets/\")",
+      "Bash(docker-compose exec frontend sh -c \"ls -la /usr/share/nginx/html/ | grep -E ''\\.(js|css)''\")",
+      "Bash(docker-compose exec frontend find /usr/share/nginx/html -name \"*.js\" -o -name \"*.css\")",
+      "Bash(docker-compose exec frontend sh -c \"find /usr/share/nginx/html -name ''*.js'' -o -name ''*.css''\")",
+      "Bash(docker-compose exec frontend sh -c \"pwd && ls -la\")",
+      "Bash(cd frontend)",
+      "Bash(docker build --target build-prod -t test-build .)",
+      "Bash(docker run --rm test-build sh -c \"ls -la dist/assets/ && du -sh dist/\")",
+      "Bash(time curl -s http://localhost/)",
+      "Bash(time curl -s http://localhost/api/v1/health)",
+      "Bash(docker exec openai_outreach_frontend ps aux)"
     ],
     "deny": []
   }

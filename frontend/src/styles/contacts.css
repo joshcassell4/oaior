@@ -1,0 +1,194 @@
+/* Contacts Page Styles */
+.contacts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 40px 0 30px;
+}
+
+.contacts-header h1 {
+  margin: 0;
+  color: #1a1a1a;
+  font-size: 2.5rem;
+}
+
+/* Table Styles */
+.contacts-table-container {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  overflow-x: auto;
+}
+
+.contacts-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.contacts-table th,
+.contacts-table td {
+  text-align: left;
+  padding: 12px 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.contacts-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.contacts-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+.contacts-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Action Buttons */
+.actions {
+  white-space: nowrap;
+}
+
+.actions .btn {
+  margin-right: 5px;
+}
+
+.btn-edit {
+  background-color: #2196F3 !important;
+  color: white;
+}
+
+.btn-edit:hover {
+  background-color: #1976D2 !important;
+}
+
+/* No Contacts Message */
+.no-contacts {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.no-contacts p {
+  font-size: 1.1rem;
+}
+
+/* Alert positioning for contacts page */
+.container .alert {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 500;
+  max-width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .contacts-header {
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+  }
+
+  .contacts-header h1 {
+    font-size: 2rem;
+  }
+
+  .contacts-table {
+    font-size: 0.875rem;
+  }
+
+  .contacts-table th,
+  .contacts-table td {
+    padding: 8px 10px;
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .actions .btn {
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .container .alert {
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .contacts-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .contacts-table-container {
+    padding: 10px;
+  }
+
+  .contacts-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .contacts-table thead,
+  .contacts-table tbody,
+  .contacts-table th,
+  .contacts-table td,
+  .contacts-table tr {
+    display: block;
+  }
+
+  .contacts-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .contacts-table tr {
+    border: 1px solid #e0e0e0;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding: 10px;
+  }
+
+  .contacts-table td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+    white-space: normal;
+  }
+
+  .contacts-table td:before {
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  .contacts-table td:nth-of-type(1):before { content: "Name"; }
+  .contacts-table td:nth-of-type(2):before { content: "Email"; }
+  .contacts-table td:nth-of-type(3):before { content: "Phone"; }
+  .contacts-table td:nth-of-type(4):before { content: "Company"; }
+  .contacts-table td:nth-of-type(5):before { content: "Actions"; }
+
+  .contacts-table td:last-child {
+    padding-left: 15px;
+  }
+
+  .contacts-table td:last-child:before {
+    display: none;
+  }
+}
